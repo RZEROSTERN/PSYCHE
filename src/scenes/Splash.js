@@ -3,6 +3,7 @@ import MainMenu from "./MainMenu";
 import LoadGame from "./LoadGame";
 import NewGame from "./NewGame";
 import Tier1 from "./stages/Tier1";
+import PauseMenu from "./ingame/PauseMenu";
 
 class Splash extends Phaser.Scene {
     startKey = null;
@@ -16,6 +17,7 @@ class Splash extends Phaser.Scene {
         this.scene.add('mainMenu', MainMenu, false);
         this.scene.add('loadGame', LoadGame, false);
         this.scene.add('newGame', NewGame, false);
+        this.scene.add('pauseMenu', PauseMenu, false);
 
         this.scene.add('tier1', Tier1, false);
 

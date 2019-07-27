@@ -12,11 +12,11 @@ class Tier1 extends Phaser.Scene {
     }
 
     create() {
-        this.add.text(20,20,"Tier 1... START !!!")
+        this.add.text(20,20,"Tier 1... START !!! Press ESCAPE for PAUSE")
     }
 
     update() {
-        this.pause.once('down', (event) => {
+        this.pause.on('down', (event) => {
             this.scene.launch('pauseMenu');
             this.scene.pause();
         });
