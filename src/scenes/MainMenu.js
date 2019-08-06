@@ -5,6 +5,7 @@ class MainMenu extends Phaser.Scene {
     newGameOption = null
     loadGameOption = null
     fullScreenOption = null
+    isFullscreen = false
 
     constructor() {
         super("mainMenu")
@@ -40,9 +41,11 @@ class MainMenu extends Phaser.Scene {
     }
 
     goFullScreen() {
-        this.scale.toggleFullscreen();
+        console.log(this.scale.toggleFullscreen());
 
-        if(!this.scale.isFullscreen) {
+        this.isFullscreen = !this.isFullscreen
+
+        if(this.isFullscreen) {
             this.fullScreenOption.text = "Leave Fullscreen"
         } else {
             this.fullScreenOption.text = "Play in Fullscreen"
