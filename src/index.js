@@ -11,6 +11,10 @@ class Game extends Phaser.Game {
         super(GameConfig);
         this.scene.add('splash', Splash, true);
     }
+
+    render() {
+        this.add.plugin(Phaser.Plugin.Debug);
+    }
 }
 
 window.game = new Game(config);

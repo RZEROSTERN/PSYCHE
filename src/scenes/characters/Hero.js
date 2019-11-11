@@ -1,7 +1,9 @@
 import Phaser from 'phaser'
 
-class Hero extends Phaser.GameObjects.Sprite {
+class Hero extends Phaser.Physics.Arcade.Sprite {
     scene = null
+    player = null
+    platforms = null
     health = 100
     lives = 3
     accelleration = 600
@@ -9,9 +11,15 @@ class Hero extends Phaser.GameObjects.Sprite {
     jumpTimer = 0
 
     constructor(config) {
-        super(config.scene, config.x, config.y, config.key);
-        config.scene.add.existing(this)
-        console.log("Hero created")
+        super(config.scene, config.x, config.y, config.key, config.platforms);
+
+        this.scene = config.scene;
+        this.platforms = config.platforms;
+
+        this.player = this.scene.physics.add.sprite(config.x, config.y, config.key);
+        this.player.setBounce(0.1);
+        this.player.setCollideWorldBounds(true);
+        this.scene.physics.add.collider(this.player, this.platforms);
     }
 
     update(keys) {
@@ -24,20 +32,21 @@ class Hero extends Phaser.GameObjects.Sprite {
         };
 
         if(input.left) {
-            console.log("Go left !!!")
+            this.player.x -= 8;
         } else if(input.right) {
-            console.log("Go right !!!")
+            this.player.x += 8;
         } else if(input.down) {
             console.log("Crouch")
-        } else if(input.jump/*&& (!this.isJumping || this.jumpTimer > 0)*/) {
-            console.log("I believe I can fly")
+        } else if(input.jump && (!this.isJumping)) {
+            this.jump();
         } else if(input.fire) {
             console.log("PewPewPew")
         }
     }
 
     jump() {
-
+        this.isJumping = true;
+        this.player.setVelocityY(-200);
     }
 
     die() {

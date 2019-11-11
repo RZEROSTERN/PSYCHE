@@ -6,7 +6,16 @@ export default {
     scale: {
         mode: Phaser.Scale.RESIZE,
         autoCenter: Phaser.Scale.CENTER_BOTH,
-        width: 1024,
-        height: 576
+        width: 1280,
+        height:720
     },
+    physics: {
+        default: 'arcade',
+        arcade: {
+            gravity: {
+                y: 300,
+                debug: true
+            }
+        }
+    }
 }
