@@ -7,6 +7,7 @@ class Tier1 extends Phaser.Scene {
     hero = null
     platforms = null
     keys = {}
+    playerShots = null;
 
     constructor() {
         super("tier1");
@@ -18,13 +19,12 @@ class Tier1 extends Phaser.Scene {
         this.load.spritesheet('hero', require('../../assets/test/hero-test.png'), { frameWidth: 32, frameHeight: 32 });
         this.load.image('ground', require('../../assets/test/platform-test.png'));
         this.load.image('tiles', require('../../assets/test/testtile_1x1.png'));
+        this.load.image('shot', require('../../assets/test/playershoottest.png'));
         this.load.tilemapTiledJSON('map', require('../../assets/test/tilemaps/tier1test.json'));
     }
 
     create() {
-        this.add.text(20,20,"Tier 1... START !!! Press ESCAPE for PAUSE");
-
-        //this.platforms.create(1000, 220, 'ground');
+        // this.add.text(20,20,"Tier 1... START !!! Press ESCAPE for PAUSE");
 
         const map = this.make.tilemap({ key: 'map' });
         const tileset = map.addTilesetImage('testtile_1x1', 'tiles');
@@ -34,10 +34,10 @@ class Tier1 extends Phaser.Scene {
         this.platforms.setCollisionByExclusion(-1, true);
 
         this.keys = {
-            jump: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W),
             left: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A),
             down: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S),
             right: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D),
+            jump: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.K),
             jump2: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE),
             fire: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.J)
         };
@@ -51,7 +51,7 @@ class Tier1 extends Phaser.Scene {
         });
     }
 
-    update() {
+    update(time, delta) {
         this.hero.update(this.keys);
 
         this.pause.on('down', (event) => {
