@@ -1,6 +1,5 @@
 import Phaser from 'phaser';
 import Hero from '../characters/Hero';
-import Debug from '../../config/debug';
 
 class Tier1 extends Phaser.Scene {
     pause = null

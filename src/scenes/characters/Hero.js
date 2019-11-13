@@ -24,7 +24,7 @@ class Hero extends Phaser.Physics.Arcade.Sprite {
 
         this.scene.playerShots = this.scene.physics.add.group({
             defaultKey: 'shot',
-            maxSize: 10,
+            maxSize: 50,
         });
 
 
