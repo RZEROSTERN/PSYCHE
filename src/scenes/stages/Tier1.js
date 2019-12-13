@@ -5,6 +5,7 @@ class Tier1 extends Phaser.Scene {
     pause = null
     hero = null
     platforms = null
+    frictionPlatforms = null
     keys = {}
     playerShots = null;
 
@@ -18,17 +19,18 @@ class Tier1 extends Phaser.Scene {
         this.load.spritesheet('hero', require('../../assets/test/hero-test.png'), { frameWidth: 32, frameHeight: 32 });
         this.load.image('ground', require('../../assets/test/platform-test.png'));
         this.load.image('tiles', require('../../assets/test/testtile_1x1.png'));
+        this.load.image('tilesfriction', require('../../assets/test/testfrictiontile_1x1.png'));
         this.load.image('shot', require('../../assets/test/playershoottest.png'));
         this.load.tilemapTiledJSON('map', require('../../assets/test/tilemaps/tier1test.json'));
     }
 
     create() {
-        // this.add.text(20,20,"Tier 1... START !!! Press ESCAPE for PAUSE");
-
         const map = this.make.tilemap({ key: 'map' });
         const tileset = map.addTilesetImage('testtile_1x1', 'tiles');
+        const tilesetFriction = map.addTilesetImage('testfrictiontile_1x1', 'tilesfriction');
 
         this.platforms = map.createStaticLayer('Platforms', tileset, 0, 200);
+        this.frictionPlatforms = map.createStaticLayer('Friction', tilesetFriction)
 
         this.platforms.setCollisionByExclusion(-1, true);
 

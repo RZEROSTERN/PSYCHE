@@ -11,6 +11,8 @@ class Hero extends Phaser.Physics.Arcade.Sprite {
     jumpTimer = 0;
     nextFire = 0;
 
+    movingStatus = "";
+
     constructor(config) {
         super(config.scene, config.x, config.y, config.key, config.platforms);
 
@@ -41,14 +43,24 @@ class Hero extends Phaser.Physics.Arcade.Sprite {
 
         if(input.left) {
             this.player.x -= 6;
+            this.movingStatus = "LEFT";
         } else if(input.right) {
             this.player.x += 6;
+            this.movingStatus = "RIGHT";
         } else if(input.down) {
             console.log("Crouch")
-        } else if(input.jump && (!this.isJumping)) {
+        }
+
+        if(input.jump && (!this.isJumping)) {
             this.jump();
-        } else if(input.fire) {
-            this.shoot();
+        }
+
+        if(input.fire) {
+            if(this.movingStatus === "LEFT") {
+                this.shoot(true);
+            } else {
+                this.shoot(false);
+            }
         }
 
         if(this.player.body.blocked.down) {
@@ -76,14 +88,20 @@ class Hero extends Phaser.Physics.Arcade.Sprite {
         console.log("OUCH !!!");
     }
 
-    shoot() {
+    shoot(inverse) {
         let shot = this.scene.playerShots.get(this.player.x, this.player.y);
 
         if(shot) {
             shot.body.reset(this.player.x, this.player.y);
             shot.setActive(true);
             shot.setVisible(true);
-            shot.body.velocity.x = 450;
+
+            if(!inverse) {
+                shot.body.velocity.x = 500;
+            } else {
+                shot.body.velocity.x = -500;
+            }
+
             shot.body.setAllowGravity(false);
         }
     }
