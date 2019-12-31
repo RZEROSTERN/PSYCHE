@@ -20,15 +20,13 @@ class Hero extends Phaser.Physics.Arcade.Sprite {
         this.platforms = config.platforms;
 
         this.player = this.scene.physics.add.sprite(config.x, config.y, config.key);
-        this.player.setBounce(0.1);
-        this.player.setCollideWorldBounds(true);
-        this.scene.physics.add.collider(this.player, this.platforms);
+        this.player.setBounce(0.2);
+        this.player.setCollideWorldBounds(false);
 
         this.scene.playerShots = this.scene.physics.add.group({
             defaultKey: 'shot',
             maxSize: 50,
         });
-
 
     }
 
@@ -41,11 +39,13 @@ class Hero extends Phaser.Physics.Arcade.Sprite {
             fire: Phaser.Input.Keyboard.JustDown(keys.fire)
         };
 
+        this.player.body.setVelocityX(0);
+
         if(input.left) {
-            this.player.x -= 6;
+            this.player.body.setVelocityX(-400);
             this.movingStatus = "LEFT";
         } else if(input.right) {
-            this.player.x += 6;
+            this.player.body.setVelocityX(400);
             this.movingStatus = "RIGHT";
         } else if(input.down) {
             console.log("Crouch")
@@ -81,7 +81,7 @@ class Hero extends Phaser.Physics.Arcade.Sprite {
 
     jump() {
         this.isJumping = true;
-        this.player.setVelocityY(-200);
+        this.player.setVelocityY(-400);
     }
 
     die() {

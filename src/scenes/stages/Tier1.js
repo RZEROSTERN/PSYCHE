@@ -2,11 +2,11 @@ import Phaser from 'phaser';
 import Hero from '../characters/Hero';
 
 class Tier1 extends Phaser.Scene {
-    pause = null
-    hero = null
-    platforms = null
-    frictionPlatforms = null
-    keys = {}
+    pause = null;
+    hero = null;
+    platforms = null;
+    frictionPlatforms = null;
+    keys = {};
     playerShots = null;
 
     constructor() {
@@ -26,13 +26,16 @@ class Tier1 extends Phaser.Scene {
 
     create() {
         const map = this.make.tilemap({ key: 'map' });
+
         const tileset = map.addTilesetImage('testtile_1x1', 'tiles');
         const tilesetFriction = map.addTilesetImage('testfrictiontile_1x1', 'tilesfriction');
 
-        this.platforms = map.createStaticLayer('Platforms', tileset, 0, 200);
-        this.frictionPlatforms = map.createStaticLayer('Friction', tilesetFriction)
+        this.platforms = map.createStaticLayer('Platforms', tileset);
+        this.frictionPlatforms = map.createStaticLayer('Friction', tilesetFriction);
 
         this.platforms.setCollisionByExclusion(-1, true);
+
+        this.frictionPlatforms.setCollisionByExclusion(-1, true);
 
         this.keys = {
             left: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A),
@@ -50,6 +53,12 @@ class Tier1 extends Phaser.Scene {
             y: this.sys.game.config.height - 128,
             platforms: this.platforms
         });
+
+        this.physics.add.collider(this.platforms, this.hero.player);
+        this.physics.add.collider(this.frictionPlatforms, this.hero.player, this.frictionCollider);
+
+        this.cameras.main.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
+        this.cameras.main.startFollow(this.hero.player);
     }
 
     update(time, delta) {
@@ -63,6 +72,11 @@ class Tier1 extends Phaser.Scene {
 
     tileColission(sprite, tile) {
 
+    }
+
+    frictionCollider(sprite){
+        sprite.scene.hero.isJumping = false;
+        console.log("Colliding, jump again !!!");
     }
 }
 
